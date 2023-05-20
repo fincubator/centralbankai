@@ -2,7 +2,12 @@ import os
 from io import StringIO
 import csv
 
-from flask import Flask, request, jsonify, render_template, make_response
+from flask import (
+    Flask,
+    request,
+    render_template,
+    make_response
+)
 import pandas as pd
 import numpy as np
 
@@ -14,7 +19,7 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/transform', methods=["POST"])
+@app.route('/predict_csv', methods=["POST"])
 def transform_view():
     f = request.files['data_file']
     if not f:
@@ -30,8 +35,17 @@ def transform_view():
     data = predict(data)
 
     response = make_response(data.to_csv())
-    response.headers["Content-Disposition"] = "attachment; filename=result.csv"
+    response.headers["Content-Disposition"] = "attachment; filename=predictions.csv"
     return response
+
+@app.route('/predict_json', methods=["POST"])
+def results():
+    json_input = request.get_json(force=True)
+    print(json_input)
+    data = pd.json_normalize(json_input)
+    data = predict(data)
+    json_out = data.to_json(orient="records", force_ascii=False, indent=4)
+    return json_out
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

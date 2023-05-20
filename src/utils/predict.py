@@ -32,6 +32,16 @@ def predict(data):
 
 if __name__ == "__main__":
     file = sys.argv[1]
-    data = pd.read_csv(file)
-    data = predict(data)
-    data.to_csv("results/result.csv", index=False)
+    _, extension = os.path.splitext(file)
+    filename = os.path.basename(file)
+    filename = os.path.splitext(filename)[0]
+    if extension == ".csv":
+        data = pd.read_csv(file)
+        data = predict(data)
+        data.to_csv(f"results/csv/{filename}.csv", index=False)
+    if extension == ".json":
+        with open(file, "r") as stream:
+            json_input = json.load(stream)
+            data = pd.json_normalize(json_input)
+        data = predict(data)
+        data.to_json(f"results/json/{filename}.json", orient="records", force_ascii=False, indent=4)
