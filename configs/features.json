@@ -1,0 +1,25 @@
+{
+    "all_feat": [
+        "service",
+        "priority",
+        "status",
+        "group",
+        "type_query",
+        "criticality",
+        "impact",
+        "system",
+        "place"
+    ],
+    "feats_numeric": [],
+    "feats_cat": [
+        "service",
+        "priority",
+        "status",
+        "group",
+        "type_query",
+        "criticality",
+        "impact",
+        "system",
+        "place"
+    ]
+}

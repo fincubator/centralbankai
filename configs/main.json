@@ -1,0 +1,9 @@
+{
+    "model_folder": "models/baseline",
+    "model_name": "baseline_model",
+    "target": [
+        "type_reclassification",
+        "type_query",
+        "type_final"
+    ]
+}
